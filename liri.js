@@ -5,19 +5,27 @@ var Spotify = require('node-spotify-api');
 var keys = require("./keys");
 const omdb = new (require('omdbapi'))('trilogy');
 
-// console.log(keys);
+// // console.log(keys);
 
 var spotify = new Spotify(keys.spotify);
 
-var song = process.argv[2];
-// var title = process.argv[3];
+var artist = process.argv[2];
 
-var queryUrl = "https://api.spotify.com/v1/search?q=track";
-console.log(queryUrl)
+// GET https://api.spotify.com/v1/search?q= + artist + &type=album,track;
 
-spotify.search({ type: 'track', query: 'All the Small Things'})
+
+spotify.search({ type: 'track', query: artist})
 .then(function(response) {
-    console.log(response.data);
+    // console.log(response.tracks.items[0]);
+    
+    //artist name
+    console.log(response.tracks.items[0].album.artists[0].name);
+    //song
+    console.log(response.tracks.items[0].name);
+    //preview
+    console.log(response.tracks.items[0].external_urls.spotify);
+    //album
+    console.log(response.tracks.items[0].album.name);
 })
 .catch(function(err){
     console.log(err);
@@ -33,6 +41,7 @@ spotify.search({ type: 'track', query: 'All the Small Things'})
 //        console.log(response.data); 
 //     })
 //    .catch(function (error) {
+
 //        console.log(error);
 //    });
 
