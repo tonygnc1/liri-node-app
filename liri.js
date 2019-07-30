@@ -8,42 +8,55 @@ const omdb = new (require('omdbapi'))('trilogy');
 // // console.log(keys);
 
 var spotify = new Spotify(keys.spotify);
+var artist = process.argv[3];
 
-var artist = process.argv[2];
+spotify_this_song();
 
-// GET https://api.spotify.com/v1/search?q= + artist + &type=album,track;
-
-
-spotify.search({ type: 'track', query: artist})
-.then(function(response) {
-    // console.log(response.tracks.items[0]);
-    
-    //artist name
-    console.log(response.tracks.items[0].album.artists[0].name);
-    //song
-    console.log(response.tracks.items[0].name);
-    //preview
-    console.log(response.tracks.items[0].external_urls.spotify);
-    //album
-    console.log(response.tracks.items[0].album.name);
-})
-.catch(function(err){
-    console.log(err);
-})
+function spotify_this_song() {
+    spotify.search({ type: 'track', query: artist })
+        .then(function (response) {
+            //artist name
+            console.log(response.tracks.items[0].album.artists[0].name);
+            //song
+            console.log(response.tracks.items[0].name);
+            //preview
+            console.log(response.tracks.items[0].external_urls.spotify);
+            //album
+            console.log(response.tracks.items[0].album.name);
+        })
+        .catch(function (err) {
+            console.log(err);
+        })
+};
 
 
 
 // var artist = process.argv[2];
+var nodeArgs = process.argv;
+var artists = "";
 
-// axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp")
+for (var i = 2; i < nodeArgs.length; i++) {
+    if (i > 2 && i < nodeArgs.length) {
+        artists = artists + "+" + nodeArgs[i];
+    } else {
+        artists = nodeArgs[i];
+    }
+}
+axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp")
 
-// .then(function (response) { 
-//        console.log(response.data); 
-//     })
-//    .catch(function (error) {
+    .then(function (response) {
+        //    console.log(response); 
+        //venue name
+        console.log(response.venue.name);
+        //venue city
+        console.log(response.venue.city);
+        //event date
+        console.log(response.datetime);
+    })
+    .catch(function (error) {
 
-//        console.log(error);
-//    });
+        console.log(error);
+    });
 
 
 
