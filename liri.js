@@ -1,3 +1,5 @@
+var fs = require("fs");
+var moment = require("moment")
 const dotenv = require('dotenv');
 require("dotenv").config();
 var axios = require("axios");
@@ -10,8 +12,6 @@ const omdb = new (require('omdbapi'))('trilogy');
 // var spotify = new Spotify(keys.spotify);
 // var artist = process.argv[3];
 
-
-
 // function spotify_this_song() {
 //     spotify.search({ type: 'track', query: artist })
 //         .then(function (response) {
@@ -23,6 +23,18 @@ const omdb = new (require('omdbapi'))('trilogy');
 //             console.log(response.tracks.items[0].external_urls.spotify);
 //             //album
 //             console.log(response.tracks.items[0].album.name);
+
+//             var spotifyData = [
+//                 "Artist:" + response.tracks.items[0].album.artists[0].name,
+//                 "Song:" + response.tracks.items[0].name,
+//                 "URL:" + response.tracks.items[0].external_urls.spotify,
+//                 "Album:" + response.tracks.items[0].album.name,
+//             ].join("\n\n");
+
+//             fs.appendFile("log.txt", spotifyData, function (err) {
+//                 if (err) throw err;
+//                 console.log(spotifyData);
+//             });
 //         })
 //         .catch(function (err) {
 //             console.log(err);
@@ -31,92 +43,95 @@ const omdb = new (require('omdbapi'))('trilogy');
 
 // spotify_this_song();
 
-// var artist = process.argv[2];
-// var nodeArgs = process.argv;
-// var artists = "";
-
-// for (var i = 2; i < nodeArgs.length; i++) {
-//     if (i > 2 && i < nodeArgs.length) {
-//         artists = artists + "+" + nodeArgs[i];
-//     } else {
-//         artists = nodeArgs[i];
-//     }
-// }
 
 
 // function concert_this() {
-
 //     axios.get("https://rest.bandsintown.com/artists/" + process.argv[3] + "/events?app_id=codingbootcamp")
 
 //         .then(function (response) {
-//             console.log(response.data);
-//             //venue name
-//             // console.log(response.data[0].venue.name);
-//             // //venue city
-//             // console.log(response.data[0].venue.city);
-//             // //event date
-//             // console.log(response.data[0].datetime);
+//             // console.log(response.data);
+//             // venue name
+//             console.log(response.data[0].venue.name);
+//             //venue city
+//             console.log(response.data[0].venue.city);
+//             //event date
+//             console.log(moment().format('MMMM Do YYYY, h:mm:ss a'), response.data[0].datetime);
+
+//             var bandsData = [
+//                 "Venue:" + response.data[0].venue.name,
+//                 "City:" + response.data[0].venue.city,
+//                 "Date:" + response.data[0].datetime,
+//             ].join("\n\n");
+
+//             fs.appendFile("log.txt", bandsData + divider, function (err) {
+//                 if (err) throw err;
+//                 console.log(bandsData);
+//             });
 //         })
 //         .catch(function (error) {
 
 //             console.log(error);
 //         });
-
 // };
 // concert_this();
 
-
-
-// var nodeArgs = process.argv;
-var movie = process.argv[3];
-
-// for (var i = 2; i < nodeArgs.length; i++) {
-//     if (i > 2 && i < nodeArgs.length) {
-//         movie = movie + "+" + nodeArgs[i];
-//     } else {
-//         movie = nodeArgs[i];
-//     }
-// }
-function movie_this() {
-    axios.get("http://www.omdbapi.com/?t=" + process.argv[3] + "&apikey=trilogy")
-        .then(function (response) {
-            // console.log(response);
-
-            console.log(response.data.Movie);
-
-            console.log(response.data.Year);
-
-            console.log(response.data.imdbRating);
-
-            console.log(response.data.Ratings[1].Value);
-
-            console.log(response.data.Country);
-
-            console.log(response.data.Language);
-
-            console.log(response.data.Plot);
-
-            console.log(response.data.Actors);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-}
-movie_this();
+var divider = "\n------------------------------------------------------------\n\n";
 
 
 
-// var fs = require("fs");
-// // Running the readFile module that's inside of fs.
-// // Stores the read information into the variable "data"
+// function movie_this() {
+//     axios.get("http://www.omdbapi.com/?t=" + process.argv[3] + "&apikey=trilogy")
+//         .then(function (response) {
+//             // console.log(response);
 
-// function do_what_it_says() {
-//     fs.readFile("random.txt", "utf8", function (error, data) {
-//         if (error) {
-//             return console.log(error);
-//         }
-//         // We will then print the contents of data
-//         console.log(data);
-//     })
+//             console.log(response.data.Title);
+//             console.log(response.data.Year);
+//             console.log(response.data.imdbRating);
+//             console.log(response.data.Ratings[1].Value);
+//             console.log(response.data.Country);
+//             console.log(response.data.Language);
+//             console.log(response.data.Plot);
+//             console.log(response.data.Actors);
+
+//             var imdbData = [
+//                 "Title:" + response.data.Title,
+//                 "Year:" + response.data.Year,
+//                 "Rating:" + response.data.imdbRating,
+//                 "Rotten Tomatoes:" + response.data.Ratings[1].Value,
+//                 "Country:" + response.data.Country,
+//                 "Language:" + response.data.Language,
+//                 "Plot:" + response.data.Plot,
+//                 "Actors:" + response.data.Actors,
+//             ].join("\n\n");
+
+//             fs.appendFile("log.txt", imdbData + divider, function (err) {
+//                 if (err) throw err;
+//                 console.log(imdbData);
+//             });
+//         })
+//         .catch(function (error) {
+//             console.log(error);
+//         });
 // };
-// do_what_it_says();
+// movie_this();
+
+
+
+function do_what_it_says() {
+    fs.readFile("random.txt", "utf8", function (error, data) {
+        if (error) {
+            return console.log(error);
+        }
+        // We will then print the contents of data
+        console.log(data);
+
+        fs.appendFile("log.txt", data + divider, function (err) {
+            if (err) throw err;
+            console.log(do_what_it_says);
+          });
+    })
+};
+do_what_it_says();
+
+
+
